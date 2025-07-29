@@ -1,0 +1,8 @@
+span.pb_badge {
+    position: absolute;
+    z-index: 99;
+    background-color: navajowhite;
+    border: 1px solid black;
+    border-radius: 4px;
+}
+
