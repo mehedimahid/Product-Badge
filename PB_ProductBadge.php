@@ -15,19 +15,33 @@ define('pb_plugin_dir_url', plugin_dir_url(__FILE__));
 
 class PB_ProductBadge{
     public function __construct(){
+        require_once plugin_dir_path( __FILE__ ) . 'pb_option_page/pbCustomMetaBox.php';
         $this->init();
         add_action('init', [$this, 'register_product_badge_taxonomy']);
         add_filter('woocommerce_product_data_tabs', [$this, 'add_product_data_tabs'], 1);
         add_action('woocommerce_product_data_panels',[$this, 'add_product_data_panels']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_product_badge_assets']);
         add_action('save_post', [$this, 'save_product_badge']);
+        add_action('woocommerce_after_add_attribute_fields', [$this, 'add_product_badge_attributes']);
 
     }
     public function init(){
         require_once plugin_dir_path(__FILE__).'Frontend/PB_Product_Badge_FrontEnd.php';
-
     }
-
+    public function add_product_badge_attributes(){
+        woocommerce_wp_select( array(
+            'id'                => '_custom_multiselect[]',
+            'label'             => __( 'Custom Multi-Select'),
+            'description'       => __( 'Choose one or more options.'),
+            'desc_tip'          => true,
+            'class'             => 'wc-enhanced-select select',
+            'options'           => array(
+                'option_1' => 'Option 1',
+                'option_2' => 'Option 2',
+                'option_3' => 'Option 3',
+            )
+        ) );
+    }
     public function save_product_badge($post_id){
         if(get_post_type($post_id) !== 'product'){
             return;
@@ -42,21 +56,19 @@ class PB_ProductBadge{
         } //else {
          //   delete_post_meta($post_id, '_pb_custom_badges');
         //}
-        if(isset($_POST['pb_badge_type_dynamic']) && is_array($_POST['pb_badge_type_dynamic'])){
-            $custom_badges = array_map('sanitize_text_field', $_POST['pb_badge_type_dynamic']);
-            update_post_meta($post_id, '_pb_dynamic_badges', $custom_badges);
+        if(isset($_POST['pb-dynamic-badges']) && is_array($_POST['pb-dynamic-badges'])){
+            $dynamic_badges = array_map('sanitize_text_field', $_POST['pb-dynamic-badges']);
+            update_post_meta($post_id, '_pb_dynamic_badges', $dynamic_badges);
         } //else {
 //            delete_post_meta($post_id, '_pb_dynamic_badges');
 //        }
     }
     public function enqueue_product_badge_assets(){
         wp_register_style('pb_product_badge_css', pb_plugin_dir_url . 'assets/css/pb_product_badge.css','', '1.0.0');
-        wp_register_script('pb_product_badge_js', pb_plugin_dir_url . 'assets/js/pb_product_badge.js', ['jquery'],'1.0.0',true);
     }
     public function add_product_data_panels(){
         wp_enqueue_style('pb_product_badge_css');
-        wp_enqueue_script('pb_product_badge_js');
-        require_once plugin_dir_path( __FILE__ ) . 'PB_Option_Page/pb_option_page.php';
+        require_once plugin_dir_path( __FILE__ ) . 'pb_option_page/pb_option_page.php';
     }
     public function add_product_data_tabs($tabs){
         $tabs['pb_product_badge'] = [
