@@ -50,12 +50,17 @@ class pbCustomMetaBox{
             <button type="button" class="button" id="pb_image_badge_upload_btn">Upload </button>
         </div>
         <div class="form-field badge-field badge-layout" id="pbLayOutBadgeField">
-            <label for="pb_badge_layout">Select Layout</label>
-            <select name="pb_badge_layout" id="pb_badge_layout">
-                <option value="">Select Layout</option>
-                <option value="layout1" >Layout 1</option>
-                <option value="layout2">Layout 2</option>
-            </select>
+            <?php
+            woocommerce_wp_radio([
+                'id'=>'pb_badge_layout',
+                'label'=> __('Select Layout'),
+                'name'=>'pb_badge_layout',
+                'options'=>[
+                    'layout1'=>'Layout 1',
+                    'layout2'=>'Layout 2',
+                ]
+            ])
+            ?>
         </div>
         <?php
     }
@@ -66,6 +71,8 @@ class pbCustomMetaBox{
 
         $display_type = $term_id ? get_term_meta($term_id, 'pb_image_badge_type', true) : 'image';
         $layout = $term_id ? get_term_meta($term_id, 'pb_badge_layout', true) : '';
+        error_log(print_r($layout, true) . "\n\n", 3, __DIR__ . '/log.txt');
+
         ?>
         <tr class="form-field">
             <th scope="row"><label for="pb_image_badge_type"><?php _e('Image Badge Type') ?></label></th>
@@ -87,11 +94,17 @@ class pbCustomMetaBox{
         <tr class="form-field badge-field badge-layout"  style="display: <?php echo ($display_type === 'layout') ? 'table-row' : 'none'; ?>">
             <th><label for="pb_badge_layout">Select Layout</label></th>
             <td>
-                <select name="pb_badge_layout" id="pb_badge_layout">
-                    <option value="">Select Layout</option>
-                    <option value="layout1" <?php selected($layout, 'layout1'); ?>>Layout 1</option>
-                    <option value="layout2" <?php selected($layout, 'layout2'); ?>>Layout 2</option>
-                </select>
+                <?php woocommerce_wp_radio([
+                    'id'=>'pb_badge_layout',
+                    'label'=> __(''),
+                    'name'=>'pb_badge_layout',
+                    'value'=>$layout,
+                    'options'=>[
+                        'layout1'=>'Layout 1',
+                        'layout2'=>'Layout 2',
+                    ]
+                ])
+                ?>
             </td>
         </tr>
         <?php
