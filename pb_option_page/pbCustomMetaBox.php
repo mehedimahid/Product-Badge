@@ -37,7 +37,7 @@ class pbCustomMetaBox{
     public function pb_image_badge_add_meta_field(){
         ?>
         <div class="form-field">
-            <label for="pb_image_badge_type"><?php _e('Image Badge Type') ?></label>
+            <label for="pb_image_badge_type"><?php _e('Image Badge Type','Product-Badge') ?></label>
             <select name="pb_image_badge_type" id="pb_image_badge_type">
                 <option value="image">Upload Image</option>
                 <option value="layout">Predefined Image</option>
@@ -50,17 +50,36 @@ class pbCustomMetaBox{
             <button type="button" class="button" id="pb_image_badge_upload_btn">Upload </button>
         </div>
         <div class="form-field badge-field badge-layout" id="pbLayOutBadgeField">
-            <?php
-            woocommerce_wp_radio([
-                'id'=>'pb_badge_layout',
-                'label'=> __('Select Layout'),
-                'name'=>'pb_badge_layout',
-                'options'=>[
-                    'layout1'=>'Layout 1',
-                    'layout2'=>'Layout 2',
-                ]
-            ])
-            ?>
+            <th scope="row"><label for="pb_badge_layout"><?php _e('Badge Layout', 'Product-Badge'); ?></label></th>
+            <td>
+                <label style="margin-right:20px; display:inline-block;">
+                    <input type="radio" name="pb_badge_layout" value="layout1" />
+                    <img
+                        src="<?php echo pb_plugin_dir_url . 'assets/img/pbNewProduct.jpeg'; ?>"
+                        alt="Layout 1"
+                        style="
+                            width:80px;
+                            height:auto;
+                            display:block;
+                            border:1px solid #ccc;
+                            margin-top:5px;">
+                    Layout 1
+                </label>
+
+                <label style="margin-right:20px; display:inline-block;">
+                    <input type="radio" name="pb_badge_layout" value="layout2" />
+                    <img
+                       src="<?php echo pb_plugin_dir_url . 'assets/img/pbOrigin.jpeg'; ?>"
+                       alt="Layout 2"
+                       style="
+                            width:80px;
+                            height:auto;
+                            display:block;
+                            border:1px solid #ccc;
+                            margin-top:5px;">
+                    Layout 2
+                </label>
+            </td>
         </div>
         <?php
     }
@@ -92,19 +111,19 @@ class pbCustomMetaBox{
             </td>
         </tr>
         <tr class="form-field badge-field badge-layout"  style="display: <?php echo ($display_type === 'layout') ? 'table-row' : 'none'; ?>">
-            <th><label for="pb_badge_layout">Select Layout</label></th>
+            <th scope="row"><label for="pb_badge_layout"><?php _e('Badge Layout', 'Product-Badge'); ?></label></th>
             <td>
-                <?php woocommerce_wp_radio([
-                    'id'=>'pb_badge_layout',
-                    'label'=> __(''),
-                    'name'=>'pb_badge_layout',
-                    'value'=>$layout,
-                    'options'=>[
-                        'layout1'=>'Layout 1',
-                        'layout2'=>'Layout 2',
-                    ]
-                ])
-                ?>
+                <label style="margin-right:20px; display:inline-block;">
+                    <input type="radio" name="pb_badge_layout" value="layout1" <?php checked($layout, 'layout1'); ?> />
+                    <img src="<?php echo pb_plugin_dir_url . 'assets/img/pbNewProduct.jpeg'; ?>" alt="Layout 1" style="width:80px; height:auto; display:block; border:1px solid #ccc; margin-top:5px;">
+                    Layout 1
+                </label>
+
+                <label style="margin-right:20px; display:inline-block;">
+                    <input type="radio" name="pb_badge_layout" value="layout2" <?php checked($layout, 'layout2'); ?> />
+                    <img src="<?php echo pb_plugin_dir_url . 'assets/img/pbOrigin.jpeg'; ?>" alt="Layout 2" style="width:80px; height:auto; display:block; border:1px solid #ccc; margin-top:5px;">
+                    Layout 2
+                </label>
             </td>
         </tr>
         <?php
