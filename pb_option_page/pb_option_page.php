@@ -11,8 +11,15 @@ $badge_type = get_post_meta($thepostid, "_badge_type", true);
             $terms = get_terms(array(
                 'taxonomy' => 'product_badge',
                 'hide_empty'=>false,
+                'meta_query' => [
+                    [
+                        'key'     => 'pb_badge_type',
+                        'value'   => ['pb-on-sale', 'pb-featured-product', 'pb-new-arrival-product', 'pb-best-selling-product'],
+                        'compare' => 'IN'
+                    ]
+                ]
             ));
-            $selected_dynamic_badge = get_post_meta($thepostid, "_pb_dynamic_badges", true);
+        $selected_dynamic_badge = get_post_meta($thepostid, "_pb_dynamic_badges", true);
 
             if(!is_array($selected_dynamic_badge)){
                 $selected_dynamic_badge = array();
@@ -37,6 +44,13 @@ $badge_type = get_post_meta($thepostid, "_badge_type", true);
             $terms = get_terms(array(
                     'taxonomy' => 'product_badge',
                     'hide_empty'=>false,
+                    'meta_query' => [
+                        [
+                            'key'     => 'pb_badge_type',
+                            'value'   => 'custom',
+                            'compare' => '='
+                        ]
+                    ]
             ));
             $selected_custom_badges = get_post_meta($thepostid,'_pb_custom_badges', true);
             if(!is_array($selected_custom_badges)){

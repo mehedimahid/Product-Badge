@@ -7,8 +7,11 @@ class pbCustomMetaBox{
         add_action('created_product_badge', array($this, 'pb_save_badge_meta_box'),10,2);
         add_action('edited_product_badge', array($this, 'pb_save_badge_meta_box'),10);
         //image upload
-        add_action('product_badge_edit_form_fields',[$this, 'pb_image_badge_meta_field'],10, 2);
-        add_action('product_badge_add_form_fields',[$this, 'pb_image_badge_add_meta_field']);
+        add_action('product_badge_edit_form_fields',[$this, 'pb_image_badge_meta_field'],20, 2);
+        add_action('product_badge_add_form_fields',[$this, 'pb_image_badge_add_meta_field'],20);
+        add_action('created_product_badge', array($this, 'pb_save_image_badge_box'));
+        add_action('edited_product_badge', array($this, 'pb_save_image_badge_box'));
+
     }
     //image uploads
     public function pb_image_upload_box($hook){
@@ -19,51 +22,41 @@ class pbCustomMetaBox{
         wp_enqueue_script('pbImageUploader',pb_plugin_dir_url.'assets/js/pb_image_upload.js',array('jquery'), '1.0.0', true);
         wp_enqueue_media();
     }
+    public function pb_save_image_badge_box($term_id)
+    {
+        if (isset($_POST['pb_image_badge_type'])){
+            update_term_meta($term_id, 'pb_image_badge_type', sanitize_text_field($_POST['pb_image_badge_type']));
+        }
+        if (isset($_POST['pb_badge_image'])){
+            update_term_meta($term_id, 'pb_badge_image', sanitize_text_field($_POST['pb_badge_image']));
+        }
+        if (isset($_POST['pb_badge_layout'])){
+            update_term_meta($term_id, 'pb_badge_layout', sanitize_text_field($_POST['pb_badge_layout']));
+        }
+    }
     public function pb_image_badge_add_meta_field(){
         ?>
         <div class="form-field">
-            <label for="pb_image_badge_type"><?php _e('Badge Type') ?></label>
-                <select name="pb_image_badge_type" id="pb_image_badge_type">
-                    <option value="image">Upload Image</option>
-                    <option value="layout">Predefined Image</option>
-                </select>
+            <label for="pb_image_badge_type"><?php _e('Image Badge Type') ?></label>
+            <select name="pb_image_badge_type" id="pb_image_badge_type">
+                <option value="image">Upload Image</option>
+                <option value="layout">Predefined Image</option>
+            </select>
         </div>
         <div class="form-field badge-field badge-image " id="pbImageBadgeField">
             <label for="pb_badge_image">Upload Image</label>
-
-                <div id="pb_image_badge_preview"></div>
-                <input type="hidden" id="pb_badge_image" name="pb_badge_image">
-                <button type="button" class="button" id="pb_image_badge_upload_btn">Upload </button>
-
+            <div id="pb_image_badge_preview"></div>
+            <input type="hidden" id="pb_badge_image" name="pb_badge_image">
+            <button type="button" class="button" id="pb_image_badge_upload_btn">Upload </button>
         </div>
         <div class="form-field badge-field badge-layout" id="pbLayOutBadgeField">
             <label for="pb_badge_layout">Select Layout</label>
-
-                <select name="pb_badge_layout" id="pb_badge_layout">
-                    <option value="">Select Layout</option>
-                    <option value="layout1" >Layout 1</option>
-                    <option value="layout2">Layout 2</option>
-                </select>
-
+            <select name="pb_badge_layout" id="pb_badge_layout">
+                <option value="">Select Layout</option>
+                <option value="layout1" >Layout 1</option>
+                <option value="layout2">Layout 2</option>
+            </select>
         </div>
-<!-- <tr class="form-field badge-field badge-image " id="pbImageBadgeField">-->
-<!--            <th><label for="pb_badge_image">Upload Image</label></th>-->
-<!--            <td>-->
-<!--                <div id="pb_image_badge_preview"></div>-->
-<!--                <input type="hidden" id="pb_badge_image" name="pb_badge_image">-->
-<!--                <button type="button" class="button" id="pb_image_badge_upload_btn">Upload </button>-->
-<!--            </td>-->
-<!--        </tr>-->
-<!--        <tr class="form-field badge-field badge-image" id="pbLayOutBadgeField">-->
-<!--            <th><label for="pb_badge_layout">Select Layout</label></th>-->
-<!--            <td>-->
-<!--                <select name="pb_badge_layout" id="pb_badge_layout">-->
-<!--                    <option value="">Select Layout</option>-->
-<!--                    <option value="layout1" >Layout 1</option>-->
-<!--                    <option value="layout2">Layout 2</option>-->
-<!--                </select>-->
-<!--            </td>-->
-<!--        </tr>-->
         <?php
     }
     public function pb_image_badge_meta_field($term = null , $texonomy = null){
@@ -71,11 +64,11 @@ class pbCustomMetaBox{
         $image_id = $term_id ? get_term_meta($term_id, 'pb_badge_image', true): '';
         $image_url = $image_id ? wp_get_attachment_image_url($image_id, 'thumbnail') : '';
 
-        $display_type = $term_id ? get_term_meta($term_id, 'pb_badge_type', true) : 'image';
+        $display_type = $term_id ? get_term_meta($term_id, 'pb_image_badge_type', true) : 'image';
         $layout = $term_id ? get_term_meta($term_id, 'pb_badge_layout', true) : '';
         ?>
         <tr class="form-field">
-            <th scope="row"><label for="pb_image_badge_type"><?php _e('Badge Type') ?></label></th>
+            <th scope="row"><label for="pb_image_badge_type"><?php _e('Image Badge Type') ?></label></th>
             <td>
                 <select name="pb_image_badge_type" id="pb_image_badge_type">
                     <option value="image"<?php selected($display_type, 'image') ?>>Upload Image</option>
@@ -83,7 +76,7 @@ class pbCustomMetaBox{
                 </select>
             </td>
         </tr>
-        <tr class="form-field badge-field badge-image" id="pbImageBadgeField" style="display: <?php echo ($display_type === 'image') ? 'table-row' : 'none'; ?>">
+        <tr class="form-field badge-field badge-image"  style="display: <?php echo ($display_type === 'image') ? 'table-row' : 'none'; ?>">
             <th><label for="pb_badge_image">Upload Image</label></th>
             <td>
                 <div id="pb_image_badge_preview"><?php if ($image_url) echo '<img src="'.esc_url($image_url).'" style="max-width:100px;" />'; ?></div>
@@ -91,7 +84,7 @@ class pbCustomMetaBox{
                 <button type="button" class="button" id="pb_image_badge_upload_btn">Upload </button>
             </td>
         </tr>
-        <tr class="form-field badge-field badge-layout" id="pbLayOutBadgeField" style="display: <?php echo ($display_type === 'layout') ? 'table-row' : 'none'; ?>">
+        <tr class="form-field badge-field badge-layout"  style="display: <?php echo ($display_type === 'layout') ? 'table-row' : 'none'; ?>">
             <th><label for="pb_badge_layout">Select Layout</label></th>
             <td>
                 <select name="pb_badge_layout" id="pb_badge_layout">
@@ -105,7 +98,7 @@ class pbCustomMetaBox{
     }
 
 
-    //Badge
+    //Custom/ Dynamic  Badge
     public function pb_save_badge_meta_box($term_id){
         if(isset($_POST['pb_badge_type'])){
             update_term_meta($term_id, 'pb_badge_type', sanitize_text_field($_POST['pb_badge_type']));
@@ -137,8 +130,11 @@ class pbCustomMetaBox{
         <p class="form-field">
             <label for="pb_badge_type"><?php _e('Badge Type:', 'Product-Badge'); ?></label>
             <select id="pb_badge_type" class="select short" name="pb_badge_type">
-                <option value="dynamic"> Dynamic </option>
                 <option value="custom">Custom</option>
+                <option value="pb-on-sale" >Product On Sale</option>
+                <option value="pb-featured-product" >Featured Products</option>
+                <option value="pb-new-arrival-product">New Arrival Products</option>
+                <option value="pb-best-selling-product">Best Selling Products</option>
             </select>
         </p>
     <?php
