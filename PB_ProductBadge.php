@@ -26,6 +26,7 @@ class PB_ProductBadge{
 
     }
     public function init(){
+        require_once plugin_dir_path( __FILE__ ) . 'pb_option_page/pbCustomColumn.php';
         require_once plugin_dir_path(__FILE__).'Frontend/PB_Product_Badge_FrontEnd.php';
     }
     public function add_product_badge_attributes(){
@@ -57,7 +58,7 @@ class PB_ProductBadge{
         wp_register_style('pb_product_badge_css', pb_plugin_dir_url . 'assets/css/pb_product_badge.css','', '1.0.0');
     }
     public function add_product_data_panels(){
-        require_once plugin_dir_path( __FILE__ ) . 'pb_option_page/pb_option_page.php';
+        require_once plugin_dir_path( __FILE__ ) . 'pb_option_page/pb_terms_option_page.php';
     }
     public function add_product_data_tabs($tabs){
         $tabs['pb_product_badge'] = [
