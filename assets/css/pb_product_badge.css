@@ -1,3 +1,20 @@
-#pbLayOutBadgeField input{
+/*#pbLayOutBadgeField input{*/
+/*    display: none;*/
+/*}*/
+.pb-predefine-img{
+    display: flex;
+}
+.badge-layout input{
     display: none;
+}
+.badge-layout label{
+    margin-top:5px;
+    margin-right:20px;
+    max-width: 125px;
+    display: block;
+}
+.badge-layout img{
+    border: 2px solid #fff;
+    width: 100%;
+
 }

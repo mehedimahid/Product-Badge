@@ -54,33 +54,24 @@ class pbCustomMetaBox{
         <div class="form-field badge-field badge-layout" id="pbLayOutBadgeField">
             <th scope="row"><label for="pb_badge_layout"><?php _e('Badge Layout', 'Product-Badge'); ?></label></th>
             <td>
-                <label style="margin-right:20px; display:inline-block;">
-                    <input type="radio" name="pb_badge_layout" value="layout1" />
-                    <img
-                        src="<?php echo pb_plugin_dir_url . 'assets/img/pbNewProduct.jpeg'; ?>"
-                        alt="Layout 1"
-                        style="
-                            width:80px;
-                            height:auto;
-                            display:block;
-                            border:1px solid #ccc;
-                            margin-top:5px;">
-                    Layout 1
-                </label>
-
-                <label style="margin-right:20px; display:inline-block;">
-                    <input type="radio"  name="pb_badge_layout" value="layout2" />
-                    <img
-                       src="<?php echo pb_plugin_dir_url . 'assets/img/pbOrigin.jpeg'; ?>"
-                       alt="Layout 2"
-                       style="
-                            width:80px;
-                            height:auto;
-                            display:block;
-                            border:1px solid #ccc;
-                            margin-top:5px;">
-                    Layout 2
-                </label>
+               <div class="pb-predefine-img">
+                   <label >
+                       <input type="radio" name="pb_badge_layout" value="layout1" />
+                       <img
+                               src="<?php echo pb_plugin_dir_url . 'assets/img/pbNewProduct.jpeg'; ?>"
+                               alt="Layout 1"
+                            >
+                       <span>Layout 1 </span>
+                   </label>
+                   <label>
+                       <input type="radio"  name="pb_badge_layout" value="layout2" />
+                       <img
+                               src="<?php echo pb_plugin_dir_url . 'assets/img/pbOrigin.jpeg'; ?>"
+                               alt="Layout 2"
+                               >
+                      <span> Layout 2</span>
+                   </label>
+               </div>
             </td>
         </div>
         <?php
@@ -114,17 +105,18 @@ class pbCustomMetaBox{
         <tr class="form-field badge-field badge-layout"  style="display: <?php echo ($display_type === 'layout') ? 'table-row' : 'none'; ?>">
             <th scope="row"><label for="pb_badge_layout"><?php _e('Badge Layout', 'Product-Badge'); ?></label></th>
             <td>
-                <label style="margin-right:20px; display:inline-block;">
-                    <input type="radio" name="pb_badge_layout" value="layout1" <?php checked($layout, 'layout1'); ?> />
-                    <img src="<?php echo pb_plugin_dir_url . 'assets/img/pbNewProduct.jpeg'; ?>" alt="Layout 1" style="width:80px; height:auto; display:block; border:1px solid #ccc; margin-top:5px;">
-                    Layout 1
-                </label>
-
-                <label style="margin-right:20px; display:inline-block;">
-                    <input type="radio" name="pb_badge_layout" value="layout2" <?php checked($layout, 'layout2'); ?> />
-                    <img src="<?php echo pb_plugin_dir_url . 'assets/img/pbOrigin.jpeg'; ?>" alt="Layout 2" style="width:80px; height:auto; display:block; border:1px solid #ccc; margin-top:5px;">
-                    Layout 2
-                </label>
+                <div class="pb-predefine-img">
+                    <label >
+                        <input type="radio"  class="" name="pb_badge_layout" value="layout1" <?php checked($layout, 'layout1'); ?> />
+                        <img src="<?php echo pb_plugin_dir_url . 'assets/img/pbNewProduct.jpeg'; ?>" alt="Layout 1" >
+                        <span>Layout 1</span>
+                    </label>
+                    <label >
+                        <input type="radio" name="pb_badge_layout" value="layout2" <?php checked($layout, 'layout2'); ?> />
+                        <img src="<?php echo pb_plugin_dir_url . 'assets/img/pbOrigin.jpeg'; ?>" alt="Layout 2" >
+                        <span>Layout 2 </span>
+                    </label>
+                </div>
             </td>
         </tr>
         <?php
