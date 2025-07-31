@@ -53,15 +53,30 @@ class PB_ProductBadge{
         if(isset($_POST['pb-custom-badges']) && is_array($_POST['pb-custom-badges'])){
             $custom_badges = array_map('sanitize_text_field', $_POST['pb-custom-badges']);
             update_post_meta($post_id, '_pb_custom_badges', $custom_badges);
-        } //else {
-         //   delete_post_meta($post_id, '_pb_custom_badges');
-        //}
+        } else {
+            delete_post_meta($post_id, '_pb_custom_badges');
+        }
         if(isset($_POST['pb-dynamic-badges']) && is_array($_POST['pb-dynamic-badges'])){
             $dynamic_badges = array_map('sanitize_text_field', $_POST['pb-dynamic-badges']);
             update_post_meta($post_id, '_pb_dynamic_badges', $dynamic_badges);
-        } //else {
-//            delete_post_meta($post_id, '_pb_dynamic_badges');
-//        }
+        } else {
+            delete_post_meta($post_id, '_pb_dynamic_badges');
+        }
+        // All selected badges assign to taxonomy (important!)
+        $all_badges = [];
+        if(!empty($custom_badges)){
+            $all_badges = array_merge($all_badges, $custom_badges);
+        }
+        if(!empty($dynamic_badges)){
+            $all_badges = array_merge($all_badges, $dynamic_badges);
+        }
+//        / 🔧 assign to product_badge taxonomy
+        if(!empty($all_badges)){
+            wp_set_object_terms($post_id, $all_badges, 'product_badge');
+        }else{
+            wp_set_object_terms($post_id, [], 'product_badge');
+
+        }
     }
     public function enqueue_product_badge_assets(){
         wp_register_style('pb_product_badge_css', pb_plugin_dir_url . 'assets/css/pb_product_badge.css','', '1.0.0');

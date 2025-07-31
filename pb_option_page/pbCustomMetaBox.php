@@ -11,8 +11,7 @@ class pbCustomMetaBox{
         add_action('product_badge_add_form_fields',[$this, 'pb_image_badge_add_meta_field'],20);
         add_action('created_product_badge', array($this, 'pb_save_image_badge_box'));
         add_action('edited_product_badge', array($this, 'pb_save_image_badge_box'));
-
-    }
+        }
     //image uploads
     public function pb_image_upload_box($hook){
         if (strpos($hook, 'edit-tags.php') === false && strpos($hook, 'term.php') === false) {
@@ -22,6 +21,8 @@ class pbCustomMetaBox{
         wp_enqueue_script('pbImageUploader',pb_plugin_dir_url.'assets/js/pb_image_upload.js',array('jquery'), '1.0.0', true);
         wp_enqueue_media();
     }
+
+    //image Badge
     public function pb_save_image_badge_box($term_id)
     {
         if (isset($_POST['pb_image_badge_type'])){
