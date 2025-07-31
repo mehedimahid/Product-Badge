@@ -1,4 +1,4 @@
-span.pb_badge {
+pb-badge-item {
     position: absolute;
     z-index: 99;
     background-color: navajowhite;

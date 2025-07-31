@@ -17,6 +17,7 @@ class pbCustomMetaBox{
         if (strpos($hook, 'edit-tags.php') === false && strpos($hook, 'term.php') === false) {
             return;
         }
+        wp_enqueue_style('pb_product_badge_css');
         wp_enqueue_script('pb_product_image_badge_js', pb_plugin_dir_url . 'assets/js/pb_product_image_badge.js', ['jquery'],'1.0.0',true);
         wp_enqueue_script('pbImageUploader',pb_plugin_dir_url.'assets/js/pb_image_upload.js',array('jquery'), '1.0.0', true);
         wp_enqueue_media();
@@ -25,8 +26,8 @@ class pbCustomMetaBox{
     //image Badge
     public function pb_save_image_badge_box($term_id)
     {
-        if (isset($_POST['pb_image_badge_type'])){
-            update_term_meta($term_id, 'pb_image_badge_type', sanitize_text_field($_POST['pb_image_badge_type']));
+        if (isset($_POST['pb_badge_preset'])){
+            update_term_meta($term_id, 'pb_badge_preset', sanitize_text_field($_POST['pb_badge_preset']));
         }
         if (isset($_POST['pb_badge_image'])){
             update_term_meta($term_id, 'pb_badge_image', sanitize_text_field($_POST['pb_badge_image']));
@@ -38,8 +39,8 @@ class pbCustomMetaBox{
     public function pb_image_badge_add_meta_field(){
         ?>
         <div class="form-field">
-            <label for="pb_image_badge_type"><?php _e('Image Badge Type','Product-Badge') ?></label>
-            <select name="pb_image_badge_type" id="pb_image_badge_type">
+            <label for="pb_badge_preset"><?php _e('Badge Preset','Product-Badge') ?></label>
+            <select name="pb_badge_preset" id="pb_badge_preset">
                 <option value="image">Upload Image</option>
                 <option value="layout">Predefined Image</option>
             </select>
@@ -68,7 +69,7 @@ class pbCustomMetaBox{
                 </label>
 
                 <label style="margin-right:20px; display:inline-block;">
-                    <input type="radio" name="pb_badge_layout" value="layout2" />
+                    <input type="radio"  name="pb_badge_layout" value="layout2" />
                     <img
                        src="<?php echo pb_plugin_dir_url . 'assets/img/pbOrigin.jpeg'; ?>"
                        alt="Layout 2"
@@ -89,15 +90,14 @@ class pbCustomMetaBox{
         $image_id = $term_id ? get_term_meta($term_id, 'pb_badge_image', true): '';
         $image_url = $image_id ? wp_get_attachment_image_url($image_id, 'thumbnail') : '';
 
-        $display_type = $term_id ? get_term_meta($term_id, 'pb_image_badge_type', true) : 'image';
+        $display_type = $term_id ? get_term_meta($term_id, 'pb_badge_preset', true) : 'image';
         $layout = $term_id ? get_term_meta($term_id, 'pb_badge_layout', true) : '';
-        error_log(print_r($layout, true) . "\n\n", 3, __DIR__ . '/log.txt');
 
         ?>
         <tr class="form-field">
-            <th scope="row"><label for="pb_image_badge_type"><?php _e('Image Badge Type') ?></label></th>
+            <th scope="row"><label for="pb_badge_preset"><?php _e('Badge Preset') ?></label></th>
             <td>
-                <select name="pb_image_badge_type" id="pb_image_badge_type">
+                <select name="pb_badge_preset" id="pb_badge_preset">
                     <option value="image"<?php selected($display_type, 'image') ?>>Upload Image</option>
                     <option value="layout"<?php selected($display_type, 'layout') ?>>Predefined Image</option>
                 </select>

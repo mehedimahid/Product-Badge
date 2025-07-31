@@ -1,5 +1,5 @@
 jQuery(document).ready(function ($){
-    $('#pb_image_badge_type').on('change',function (){
+    $('#pb_badge_preset').on('change',function (){
         // $('.badge-field').hide();
         // $('.badge-' + $(this).val()).show();
         let selected = $(this).val();
@@ -7,7 +7,6 @@ jQuery(document).ready(function ($){
             // যেটা সিলেক্ট করা আছে সেটা fadeIn করবো
             $('.badge-' + selected).fadeIn(200);
         });
-
     })
     $('#pb_image_badge_upload_btn').on('click', function(e){
         e.preventDefault();

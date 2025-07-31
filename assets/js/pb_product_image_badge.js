@@ -1,13 +1,13 @@
 
 document.addEventListener('DOMContentLoaded',function (){
-    const pb_image_badge_type = document.getElementById('pb_image_badge_type')
+    const pb_badge_preset = document.getElementById('pb_badge_preset')
     const pbImageBadgeField = document.getElementById('pbImageBadgeField')
     const pbLayOutBadgeField = document.getElementById('pbLayOutBadgeField')
-    if (!pb_image_badge_type || !pbImageBadgeField || !pbLayOutBadgeField) {
+    if (!pb_badge_preset || !pbImageBadgeField || !pbLayOutBadgeField) {
         return;
     }
      function toggle(){
-        const value = pb_image_badge_type.value;
+        const value = pb_badge_preset.value;
         if (value === 'image') {
             pbImageBadgeField.classList.remove('hidden');
             pbLayOutBadgeField.classList.add('hidden');
@@ -17,6 +17,6 @@ document.addEventListener('DOMContentLoaded',function (){
             pbLayOutBadgeField.classList.remove('hidden');
         }
     }
-    pb_image_badge_type.addEventListener('change',toggle)
+    pb_badge_preset.addEventListener('change',toggle)
     toggle()
 })

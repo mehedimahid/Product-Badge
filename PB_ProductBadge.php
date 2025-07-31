@@ -46,43 +46,17 @@ class PB_ProductBadge{
         if(get_post_type($post_id) !== 'product'){
             return;
         }
-        if(isset($_POST['pb_badge_type'])){
-            $badge_type = sanitize_text_field($_POST['pb_badge_type']);
-            update_post_meta($post_id, '_badge_type',$badge_type);
-        }
-        if(isset($_POST['pb-custom-badges']) && is_array($_POST['pb-custom-badges'])){
-            $custom_badges = array_map('sanitize_text_field', $_POST['pb-custom-badges']);
-            update_post_meta($post_id, '_pb_custom_badges', $custom_badges);
-        } else {
-            delete_post_meta($post_id, '_pb_custom_badges');
-        }
-        if(isset($_POST['pb-dynamic-badges']) && is_array($_POST['pb-dynamic-badges'])){
-            $dynamic_badges = array_map('sanitize_text_field', $_POST['pb-dynamic-badges']);
-            update_post_meta($post_id, '_pb_dynamic_badges', $dynamic_badges);
-        } else {
-            delete_post_meta($post_id, '_pb_dynamic_badges');
-        }
-        // All selected badges assign to taxonomy (important!)
-        $all_badges = [];
-        if(!empty($custom_badges)){
-            $all_badges = array_merge($all_badges, $custom_badges);
-        }
-        if(!empty($dynamic_badges)){
-            $all_badges = array_merge($all_badges, $dynamic_badges);
-        }
-//        / 🔧 assign to product_badge taxonomy
-        if(!empty($all_badges)){
-            wp_set_object_terms($post_id, $all_badges, 'product_badge');
+        if(isset($_POST['pb-custom-badges'])){
+            $custom_badges = is_array($_POST['pb-custom-badges']) ? array_map('sanitize_text_field', $_POST['pb-custom-badges']) : [];
         }else{
-            wp_set_object_terms($post_id, [], 'product_badge');
-
+            $custom_badges = [];
         }
+        update_post_meta($post_id, '_pb_custom_badges', $custom_badges);
     }
     public function enqueue_product_badge_assets(){
         wp_register_style('pb_product_badge_css', pb_plugin_dir_url . 'assets/css/pb_product_badge.css','', '1.0.0');
     }
     public function add_product_data_panels(){
-        wp_enqueue_style('pb_product_badge_css');
         require_once plugin_dir_path( __FILE__ ) . 'pb_option_page/pb_option_page.php';
     }
     public function add_product_data_tabs($tabs){
