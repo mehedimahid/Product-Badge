@@ -1,8 +1,97 @@
-pb-badge-item {
-    position: absolute;
-    z-index: 99;
-    background-color: navajowhite;
-    border: 1px solid black;
-    border-radius: 4px;
+.pb-product-badges{
+    display: inline-flex;
+    flex-wrap: wrap;
+}
+.pb_badge_preset{
+    display: flex;
+    max-width: 200px;
+    height: 35px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin: 5px 3px;
+    font-size: 16px;
+    font-weight: 500;
+}
+.pb-badge-item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.pb-badge-layout1{
+    width: 95px;
+    background-color: black;
+    border: 2px solid #000;
+    color: white;
+    border-radius: 3px;
+}
+.pb-badge-layout2{
+    width: 95px;
+    background-color: #d900ff;
+    border-color: #d900ff;
+    font-weight: 400;
+    color: #ffffff;
+    clip-path: polygon(100% 0, calc(100% - 1em) 50%, 100% 100%, 0 100%, 0 50%, 0 0);
+
+}
+.pb-badge-layout2 span {
+    font-weight: 400;
+}
+.pb-badge-layout3{
+    width: 95px;
+    background-color: gray;
+    color: #FFFFFF;
+    border-color: black;
+    font-weight: 400;
+    border-radius: 3px;
 }
 
+.pb-badge-layout4{
+    width: 95px;
+    background-color: gray;
+    border-color: black;
+    font-weight: 400;
+    color: #ffffff;
+    clip-path: polygon(100% 0, calc(100% - 1em) 50%, 100% 100%, 0 100%, 0 50%, 0 0);
+
+}
+.pb-badge-Image{
+    width: 95px;
+    height: 35px !important;
+}
+
+.pb_badge_preset_sales {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    position: absolute;
+    z-index: 99;
+    left: -3px;
+    top: -5px;
+}
+
+.pb_badge_preset_sales  .pb_badge_preset{
+    display: flex;
+    max-width: 200px;
+    height: 35px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin: 5px 3px;
+    font-size: 16px;
+    font-weight: 500;
+}
+.woocommerce span.onsale {
+    /*display: none;*/
+}
+
+
+.pb_badge_preset_sales .pb-badge-item{
+    display: flex;
+    justify-content: start;
+    align-items: start;
+}
+
+.archive  .pb-badge-Image{
+    margin-top: 16px !important;
+}

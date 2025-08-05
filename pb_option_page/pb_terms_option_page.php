@@ -12,8 +12,8 @@ $badge_type = get_post_meta($thepostid, "_badge_type", true);
                     'meta_query' => [
                         [
                             'key'     => 'pb_badge_type',
-                            'value'   => 'custom',
-                            'compare' => '='
+//                            'value'   => 'custom',
+                            'compare' => 'EXISTS'
                         ]
                     ]
             ));
